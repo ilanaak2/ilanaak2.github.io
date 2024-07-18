@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src='https://d3js.org/d3.v5.min.js'></script>
+  <script src='projtwo.js'></script>
+  <style>
+    /*https://www.w3schools.com/css/css_tooltip.asp tooltip style*/
+    .tooltip {
+        
+        position: absolute;
+        text-align: center;
+        background: rgb(210, 64, 64);
+    }
+  </style>
+</head>
+<body>
+    <h1>Sleep Duration by Age</h1>
+  <svg></svg>
+  <div class="tooltip"></div>
+  <button id="buttonTwo">Next</button>
+  <script>
+    //https://stackoverflow.com/questions/38338144/how-can-i-make-a-button-redirect-my-page-to-another-page-using-addeventlistener click event
+    //https://www.w3schools.com/js/js_htmldom_eventlistener.asp   button click
+    document.getElementById("buttonTwo").addEventListener("click", function() {
+      document.location.href = "thirdpage.html";
+    });
+</script>
+<p>
+    This chart shows information on the sleep duration average for varying ages of individuals.
+    <br>
+    We can see based on the coloring of the bar that 53 year olds have the highest sleep duration. 34 year olds have the lowest sleep duration.
+    <br>
+    We can observe here that on average individuals who are closer to the end of their careers 
+    sleep longer than individuals closer to the start of their careers. 
+    <br>
+    This seems logical given that individuals may be speding more time advancing their careers
+    at a younger age and may spend less time dedicated to work, therefore are able to sleep longer at the age of 53.
+</p>
+</body>
+</html>

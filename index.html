@@ -2,10 +2,25 @@
 <html>
 <head>
   <script src='https://d3js.org/d3.v5.min.js'></script>
+  <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
   <script src='proj.js'></script>
 </head>
 <body>
-
-
+  <h1>Stress Level by Occupation</h1>
+  
+  <svg></svg>
+  <button id="buttonOne">Next</button>
+  <script>
+    //https://stackoverflow.com/questions/38338144/how-can-i-make-a-button-redirect-my-page-to-another-page-using-addeventlistener click event
+    //https://www.w3schools.com/js/js_htmldom_eventlistener.asp   button click
+    document.getElementById("buttonOne").addEventListener("click", function() {
+      document.location.href = "secondpage.html";
+    });
+  </script>
+  <p> 
+    This chart displays information on stress levels given an occupation. <br> 
+    We can see that the occupation with the highest stress level is a Sales Representative. This may be due to the extended hours sales
+    representative work as well as the added factor of having an inconsistent income.
+  </p>
 </body>
 </html>

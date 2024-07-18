@@ -2,12 +2,12 @@ async function init() {
     const data = await d3.csv('https://raw.githubusercontent.com/ilanaak2/ilanaak2.github.io/main/Sleep_health_and_lifestyle_dataset.csv');
 
     //http://learnjsdata.com/group_data.html  for grouping and aggregation
-    var averageStressPerJob = d3.nest()
-        .key(function(d) { return d.Occupation; })
-        .rollup(function(v) { return d3.mean(v, function(d) { return +d['Stress Level']; }); })
+    var averageSleepDuration = d3.nest()
+        .key(function(d) { return d.Age; })
+        .rollup(function(v) { return d3.mean(v, function(d) { return +d['Sleep Duration']; }); })
         .entries(data);
         //https://stackoverflow.com/questions/22849622/how-to-access-key-values-in-an-object-using-d3-js map function to get key values as domain
-        var x = d3.scaleBand().domain(averageStressPerJob.map(function(d){return d.key})).range([0,680]).padding(0.1);
+        var x = d3.scaleBand().domain(averageSleepDuration.map(function(d){return d.key})).range([0,680]).padding(0.1);
         var y = d3.scaleLinear().domain([0,10]).range([250,0]);
         var wh = 200;
         var t = 50;
@@ -17,8 +17,9 @@ async function init() {
            .attr("height", 400)
            .append("g")
               .attr("transform", "translate("+90+","+t+")");
-        
-        var maxAverage = d3.max(averageStressPerJob, function(d) { return d.value; });       
+        var maxAverage = d3.max(averageSleepDuration, function(d) { return d.value; }); 
+        var minAverage = d3.min(averageSleepDuration, function(d) { return d.value; }); 
+              
         s.append("g")
         .call(d3.axisLeft(y));
 
@@ -29,7 +30,7 @@ async function init() {
         .attr("x", -60)
         .attr("dy", "1em")
         .attr("transform", "rotate(-90)")
-        .text("Stress Level Average");
+        .text("Sleep Duration Average");
 
        
  
@@ -44,34 +45,42 @@ async function init() {
         s.append("text")
         .attr("text-anchor", "end")
         .attr('transform', 'translate(' + 300 + ', ' + 300 + ')')
-        .text("Occupation");
-           
-
+        .text("Age");
+          
+        
+        var tooltip = d3.select(".tooltip");
+        
         s.selectAll(".bar")
-              .data(averageStressPerJob)
+              .data(averageSleepDuration)
               .enter().append("rect")
               .attr("class", "bar")
                  .attr("x", function(d) { return x(d.key); })
                  .attr("y", function(d) { return y(d.value); })
                  .attr("width", x.bandwidth())
-                 .attr("height", function(d) { return 250 - y(d.value);});
+                 .attr("height", function(d) { return 250 - y(d.value);})
+                 .attr("stroke", function(d) {
+                    if (d.value == maxAverage) {
+                        return "red";
+                    }
+                    if (d.value == minAverage){
+                        return "green";
+                    }
+                })
+                .attr("stroke-width", function(d) {
+                    if (d.value == maxAverage || d.value == minAverage) {
+                        return 3;
+                    }
+                })
+                 .on("mouseover", function(d) {
+                    tooltip
+                          .style("opacity", 1)
+                          .style("left", (d3.event.pageX + 5) + "px")
+                          .style("top", (d3.event.pageY - 30) + "px")
+                          .html("Age: " + d.key  + ", Sleep Duration: " + d.value) 
                 
-            //https://d3-annotation.susielu.com/ annotation reference
-            const annotations = [{
-            note: {
-                label: "Max stress level : " + maxAverage,
-            },
-            x: 250,
-            y: 100,
-            dy: -20,
-            dx: 20
-            }]
-
-
-            d3.select("svg")
-            .append("g")
-            .attr("class", "annotation-group")
-            .call(d3.annotation().annotations(annotations))
+               })
+               .on("mouseout", function() {tooltip.style("opacity", 0)})
+       
 }
 
 init();
