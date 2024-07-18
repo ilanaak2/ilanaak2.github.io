@@ -60,10 +60,10 @@ async function init() {
                  .attr("height", function(d) { return 250 - y(d.value);})
                  .attr("stroke", function(d) {
                     if (d.value == maxAverage) {
-                        return "red";
+                        return "orange";
                     }
                     if (d.value == minAverage){
-                        return "green";
+                        return "blue";
                     }
                 })
                 .attr("stroke-width", function(d) {
